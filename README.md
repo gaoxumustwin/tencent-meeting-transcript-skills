@@ -234,3 +234,7 @@ python -m py_compile .claude/skills/meeting-transcript/scripts/artifact_utils.py
 - 把 `output/txt/` 视为给人看的交付层
 
 这样同一份会议数据既能“马上可读”，又能“后续可加工”。
+
+## License
+
+This repository is licensed under the MIT License. See [LICENSE](LICENSE).

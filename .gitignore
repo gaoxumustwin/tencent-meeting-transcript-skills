@@ -1,10 +1,19 @@
+# Local Claude Code permissions
+.claude/settings.local.json
 
-# 本地权限配置
-.claude/settings.local.json 
+# Generated meeting artifacts
+output/
 
-# 会议产物
-output/*
-
-# python
+# Python cache and virtual environments
 **/__pycache__/
-*.pyc
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
