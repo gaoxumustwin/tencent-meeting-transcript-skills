@@ -1,0 +1,7 @@
+interface:
+  display_name: "腾讯会议逐字稿"
+  short_description: "打开腾讯会议录制页面，提取完整逐字稿并在项目 output 目录生成会议纪要文件"
+  default_prompt: "Use $meeting-transcript to open a Tencent Meeting recording URL, extract the transcript, and generate a formatted minutes file under this repo's output directory."
+
+policy:
+  allow_implicit_invocation: true

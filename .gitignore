@@ -1,0 +1,10 @@
+
+# 本地权限配置
+.claude/settings.local.json 
+
+# 会议产物
+output/*
+
+# python
+**/__pycache__/
+*.pyc
