@@ -1,4 +1,4 @@
-async () => {
+async function() {
   function firstNonEmptyMatch(text, patterns) {
     for (const pattern of patterns) {
       const match = text.match(pattern);

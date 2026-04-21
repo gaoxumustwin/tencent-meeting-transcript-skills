@@ -45,8 +45,8 @@ python .agents/skills/meeting-transcript/scripts/format_minutes.py "output/json/
 - 腾讯会议录制页通常是虚拟滚动列表，DOM 里只保留可见条目。不要依赖遍历可见节点抓逐字稿，优先使用 React Fiber 中的内部数据数组。
 - 数据数组里可能有 `speaker` 为空的占位项，抽取时要过滤。
 - `start_time` 以毫秒存储；会议纪要里统一展示为 `MM:SS`。
-- [scripts/extract_transcript.js](scripts/extract_transcript.js) 已经写成可直接传给 `mcp__chrome_devtools__evaluate_script` 的函数声明，不要再包一层 IIFE。
-- [scripts/extract_transcript_to_clipboard.js](scripts/extract_transcript_to_clipboard.js) 是经过真实测试的桥接脚本：它把浏览器里的原始结构化 JSON 直接写入系统剪贴板，适合后续由 `save_transcript_json.py --from-clipboard` 落盘。
+- [scripts/extract_transcript.js](scripts/extract_transcript.js) 已经写成可直接传给 `mcp__chrome_devtools__evaluate_script` 的 `function()` 声明格式，不要再包一层 IIFE。注意：`evaluate_script` 不支持箭头函数语法，脚本必须使用 `function` 声明。
+- [scripts/extract_transcript_to_clipboard.js](scripts/extract_transcript_to_clipboard.js) 使用 `async function()` 声明格式，把浏览器里的原始结构化 JSON 直接写入系统剪贴板，适合后续由 `save_transcript_json.py --from-clipboard` 落盘。
 - Windows/PowerShell 落盘的临时 JSON 可能带 UTF-8 BOM；`save_transcript_json.py` 和 `format_minutes.py` 已兼容 `utf-8-sig`。
 - 如果腾讯会议页面结构调整导致抽取失败，优先更新 [scripts/extract_transcript.js](scripts/extract_transcript.js) 的选择器和 Fiber 回溯逻辑。
 
@@ -82,7 +82,7 @@ TXT 内容结构固定为：
 
 ## Resources
 
-- [scripts/extract_transcript.js](scripts/extract_transcript.js)：浏览器端逐字稿抽取函数。
-- [scripts/extract_transcript_to_clipboard.js](scripts/extract_transcript_to_clipboard.js)：把浏览器中的原始逐字稿 JSON 写入系统剪贴板。
+- [scripts/extract_transcript.js](scripts/extract_transcript.js)：浏览器端逐字稿抽取函数。使用 `function()` 声明格式（`evaluate_script` 不支持箭头函数）。
+- [scripts/extract_transcript_to_clipboard.js](scripts/extract_transcript_to_clipboard.js)：把浏览器中的原始逐字稿 JSON 写入系统剪贴板。使用 `async function()` 声明格式。
 - [scripts/save_transcript_json.py](scripts/save_transcript_json.py)：先保存浏览器抽取到的原始结构化 JSON。
 - [scripts/format_minutes.py](scripts/format_minutes.py)：只从已保存的 JSON 生成会议纪要 TXT。

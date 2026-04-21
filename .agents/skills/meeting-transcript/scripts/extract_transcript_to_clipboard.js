@@ -1,4 +1,4 @@
-async () => {
+async function() {
   const listContainer = document.querySelector(".minutes-module-list");
   if (!listContainer) {
     return {

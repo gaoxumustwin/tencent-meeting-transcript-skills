@@ -23,7 +23,7 @@ allowed-tools:
 1. 从 `$ARGUMENTS` 或当前用户消息中获取腾讯会议链接。优先接受 `https://meeting.tencent.com/cw/...` 录制页，也接受 `https://meeting.tencent.com/crm/...` 分享链接。`crm` 链接通常会自动重定向到 `cw` 录制页；若未自动跳转，先观察页面提示再继续。
 2. 使用 `mcp__chrome-devtools__navigate_page` 打开链接。如果页面要求登录、授权、验证码或中间确认，暂停并提示用户先完成页面交互。
 3. 页面稳定后使用 `mcp__chrome-devtools__take_snapshot` 获取结构。如果当前不是“逐字稿”标签页，点击文本为“逐字稿”的元素切换过去。不要用 `mcp__chrome-devtools__wait_for` 等待 `minutes-module-list` 这类 CSS class 名；`wait_for` 只能匹配页面可见文本。如果确实需要等待，请等待“逐字稿”或其他可见文字。
-4. 读取 [scripts/extract_transcript.js](scripts/extract_transcript.js)，把文件内容原样作为 `mcp__chrome-devtools__evaluate_script` 的 `function` 参数执行。这个脚本已经是可直接执行的函数声明，不要再包 IIFE，也不要手工去壳。
+4. 读取 [scripts/extract_transcript.js](scripts/extract_transcript.js)，把文件内容原样作为 `mcp__chrome-devtools__evaluate_script` 的 `function` 参数执行。这个脚本已经是可直接执行的 `function()` 声明格式，不要再包 IIFE，也不要手工去壳。注意：`evaluate_script` 不支持箭头函数语法，脚本必须使用 `function` 声明。
 5. 检查返回值：
    - 如果包含 `error`，直接向用户报告并停止。
    - 如果 `items` 为空，先确认是否真的切到了“逐字稿”视图，再重试一次。
@@ -90,8 +90,8 @@ TXT 内容结构固定为：
 
 ## Resources
 
-- [scripts/extract_transcript.js](scripts/extract_transcript.js)：浏览器端逐字稿抽取函数。
-- [scripts/extract_transcript_to_clipboard.js](scripts/extract_transcript_to_clipboard.js)：把浏览器中的原始逐字稿 JSON 写入系统剪贴板。
+- [scripts/extract_transcript.js](scripts/extract_transcript.js)：浏览器端逐字稿抽取函数。使用 `function()` 声明格式（`evaluate_script` 不支持箭头函数）。
+- [scripts/extract_transcript_to_clipboard.js](scripts/extract_transcript_to_clipboard.js)：把浏览器中的原始逐字稿 JSON 写入系统剪贴板。使用 `async function()` 声明格式。
 - [scripts/save_transcript_json.py](scripts/save_transcript_json.py)：先保存浏览器抽取到的原始结构化 JSON。
 - [scripts/format_minutes.py](scripts/format_minutes.py)：只从已保存的 JSON 生成会议纪要 TXT。
 - [scripts/artifact_utils.py](scripts/artifact_utils.py)：统一 JSON/TXT 产物的 basename 和输出目录。

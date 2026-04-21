@@ -29,8 +29,8 @@ Steps 3→4 must happen immediately with no intervening operations — clipboard
 
 ## Script Roles
 
-- `extract_transcript.js`: Arrow function `() => {...}` format, directly executable as `evaluate_script` function parameter. Uses React Fiber (`__reactFiber$` keys) to find internal data arrays, not DOM traversal (page uses virtual scrolling).
-- `extract_transcript_to_clipboard.js`: Async arrow function `async () => {...}`. Same extraction logic plus `navigator.clipboard.writeText()`.
+- `extract_transcript.js`: Function declaration `function() {...}` format, directly executable as `evaluate_script` function parameter. Uses React Fiber (`__reactFiber$` keys) to find internal data arrays, not DOM traversal (page uses virtual scrolling).
+- `extract_transcript_to_clipboard.js`: Async function declaration `async function() {...}`. Same extraction logic plus `navigator.clipboard.writeText()`.
 - `save_transcript_json.py`: Reads clipboard via PowerShell with UTF-8 encoding fix. Outputs `JSON_PATH=...` and `BASENAME=...` markers for pipeline chaining.
 - `format_minutes.py`: Reads saved JSON only. Outputs `TXT_PATH=...` and `BASENAME=...`.
 - `artifact_utils.py`: Shared naming (`build_file_stem`) and directory setup (`ensure_output_dirs`). Both Python scripts import from this module. `artifact_utils.py` must be in the same directory as the scripts that import it — do not move it to a separate lib location.
